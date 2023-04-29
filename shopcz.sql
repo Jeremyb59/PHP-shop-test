@@ -1,11 +1,6 @@
-#创建数据库
 create database shopcz charset utf8;
-
-#选择数据库
 use shopcz;
 
-/*------------------------------------商品模块---------------------------------------*/
-#创建商品类别表
 create table cz_category(
 	cat_id smallint unsigned not null auto_increment primary key comment '商品类别ID',
 	cat_name varchar(30) not null default '' comment '商品类别名称',
@@ -17,8 +12,6 @@ create table cz_category(
 	index pid(parent_id)
 )engine=MyISAM charset=utf8;
 
-
-#创建商品品牌表
 create table cz_brand(
 	brand_id smallint unsigned not null auto_increment primary key comment '商品品牌ID',
 	brand_name varchar(30) not null default '' comment '商品品牌名称',
@@ -29,14 +22,11 @@ create table cz_brand(
 	is_show tinyint not null default 1 comment '是否显示，默认显示'	
 )engine=MyISAM charset=utf8;
 
-#创建商品类型表
 create table cz_goods_type(
 	type_id smallint unsigned not null auto_increment primary key comment '商品类型ID',
 	type_name varchar(50) not null default '' comment '商品类型名称'
 )engine=MyISAM charset=utf8;
 
-
-#创建商品属性表
 create table cz_attribute(
 	attr_id smallint unsigned not null auto_increment primary key comment '商品属性ID',
 	attr_name varchar(50) not null default '' comment '商品属性名称',
@@ -48,7 +38,6 @@ create table cz_attribute(
 	index type_id(type_id)
 )engine=MyISAM charset=utf8;
 
-#创建商品表
 create table cz_goods(
 	goods_id int unsigned not null auto_increment primary key comment '商品ID',
 	goods_sn varchar(30) not null default '' comment '商品货号',
@@ -78,7 +67,6 @@ create table cz_goods(
 	index type_id(type_id)
 )engine=MyISAM charset=utf8;
 
-#创建商品属性对应表
 create table cz_goods_attr(
 	goods_attr_id int unsigned not null auto_increment primary key comment '编号ID',
 	goods_id int unsigned not null default 0 comment '商品ID',
@@ -89,7 +77,6 @@ create table cz_goods_attr(
 	index attr_id(attr_id)
 )engine=MyISAM charset=utf8;
 
-#创建商品相册表
 create table cz_galary(
 	img_id int unsigned not null auto_increment primary key comment '图片编号',
 	goods_id int unsigned not null default 0 comment '商品ID',
@@ -99,11 +86,6 @@ create table cz_galary(
 	index goods_id(goods_id)
 )engine=MyISAM charset=utf8;
 
-/*------------------------------------商品模块 end-----------------------------------*/
-
-
-/*------------------------------------用户模块---------------------------------------*/
-#创建用户表
 create table cz_user(
 	user_id int unsigned not null auto_increment primary key comment '用户编号',
 	user_name varchar(50) not null default '' comment '用户名',
@@ -112,7 +94,6 @@ create table cz_user(
 	reg_time int unsigned not null default 0 comment '用户注册时间'
 )engine=MyISAM charset=utf8;
 
-#创建用户收货地址表
 create table cz_address(
 	address_id int unsigned not null auto_increment primary key comment '地址编号',
 	user_id int unsigned not null default 0 comment '地址所属用户ID',
@@ -127,7 +108,6 @@ create table cz_address(
 	index user_id(user_id)
 )engine=MyISAM charset=utf8;
 
-#创建地区表，包括省市区三级
 create table cz_region(
 	region_id smallint unsigned not null auto_increment primary key comment '地区ID',
 	parent_id smallint unsigned not null default 0 comment '父ID',
@@ -135,7 +115,6 @@ create table cz_region(
 	region_type tinyint unsigned not null default 1 comment '地区类型 1 省份 2 市 3 区(县)'
 )engine=MyISAM charset=utf8;
 
-#创建购物车表
 create table cz_cart(
 	cart_id int unsigned not null auto_increment primary key comment '购物车ID',
 	user_id int unsigned not null default 0 comment '用户ID',
@@ -148,13 +127,7 @@ create table cz_cart(
 	goods_price decimal(10,2) not null default 0 comment '成交价格',
 	subtotal decimal(10,2) not null default 0 comment '小计'
 )engine=MyISAM charset=utf8;
-/*------------------------------------用户模块 end-----------------------------------*/
 
-
-
-
-/*------------------------------------订单模块---------------------------------------*/
-#创建送货方式表
 create table cz_shipping(
 	shipping_id tinyint unsigned not null auto_increment primary key comment '编号',
 	shipping_name varchar(30) not null default '' comment '送货方式名称',
@@ -163,8 +136,6 @@ create table cz_shipping(
 	enabled tinyint unsigned not null default 1 comment '是否启用，默认启用'
 )engine=MyISAM charset=utf8;
 
-
-#创建支付方式表
 create table cz_payment(
 	pay_id tinyint unsigned not null auto_increment primary key comment '支付方式ID',
 	pay_name varchar(30) not null default '' comment '支付方式名称',
@@ -172,8 +143,6 @@ create table cz_payment(
 	enabled tinyint unsigned not null default 1 comment '是否启用，默认启用'
 )engine=MyISAM charset=utf8;
 
-
-#创建订单表
 create table cz_order(
 	order_id int unsigned not null auto_increment primary key comment '订单ID',
 	order_sn varchar(30) not null default '' comment '订单号',
@@ -192,8 +161,6 @@ create table cz_order(
 	index shipping_id(shipping_id)
 )engine=MyISAM charset=utf8;
 
-
-#创建订单明细表,即商品订单关系表（多对多）
 create table cz_order_goods(
 	rec_id int unsigned not null auto_increment primary key comment '编号',
 	order_id int unsigned not null default 0 comment '订单ID',
@@ -207,11 +174,6 @@ create table cz_order_goods(
 	subtotal decimal(10,2) not null default 0 comment '商品小计'
 )engine=MyISAM charset=utf8;
 
-/*------------------------------------订单模块 end-----------------------------------*/
-
-
-
-#创建后台管理员表
 create table cz_admin(
 	admin_id smallint unsigned not null auto_increment primary key comment '管理员编号',
 	admin_name varchar(30) not null default '' comment '管理员名称',
@@ -220,5 +182,4 @@ create table cz_admin(
 	add_time int unsigned not null default 0 comment '添加时间'
 )engine=MyISAM charset=utf8;
 
-#插入一条记录作为管理员 用户名和密码均为admin
 insert into cz_admin(admin_name,password,email) values('admin','21232f297a57a5a743894a0e4a801fc3','admin@itcast.cn');
